@@ -53,6 +53,7 @@ import org.openstreetmap.josm.actions.mapmode.ImproveWayAccuracyAction;
 import org.openstreetmap.josm.actions.mapmode.MapMode;
 import org.openstreetmap.josm.actions.mapmode.ParallelWayAction;
 import org.openstreetmap.josm.actions.mapmode.SelectAction;
+import org.openstreetmap.josm.actions.mapmode.SelectBoxAction;
 import org.openstreetmap.josm.actions.mapmode.SelectLassoAction;
 import org.openstreetmap.josm.actions.mapmode.ZoomAction;
 import org.openstreetmap.josm.data.ViewportData;
@@ -178,6 +179,8 @@ public class MapFrame extends JPanel implements Destroyable, ActiveLayerChangeLi
     public final ZoomAction mapModeZoom;
     /** Delete mode */
     public final DeleteAction mapModeDelete;
+    /** Box select mode */
+    public final SelectBoxAction mapModeSelectBox;
     /** Select Lasso mode */
     public final SelectLassoAction mapModeSelectLasso;
 
@@ -244,12 +247,14 @@ public class MapFrame extends JPanel implements Destroyable, ActiveLayerChangeLi
 
         // toolBarActions, map mode buttons
         mapModeSelect = new SelectAction(this);
+        mapModeSelectBox = new SelectBoxAction(this);
         mapModeSelectLasso = new SelectLassoAction();
         mapModeDraw = new DrawAction();
         mapModeZoom = new ZoomAction(this);
         mapModeDelete = new DeleteAction();
 
         addMapMode(new IconToggleButton(mapModeSelect));
+        addMapMode(new IconToggleButton(mapModeSelectBox, true));
         addMapMode(new IconToggleButton(mapModeSelectLasso, true));
         addMapMode(new IconToggleButton(mapModeDraw));
         addMapMode(new IconToggleButton(mapModeZoom, true));

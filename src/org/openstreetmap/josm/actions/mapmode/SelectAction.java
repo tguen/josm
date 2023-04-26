@@ -210,6 +210,14 @@ public class SelectAction extends MapMode implements ModifierExListener, KeyPres
         selectionManager = new SelectionManager(this, false, mv);
     }
 
+    protected SelectAction(String name, String iconName, String tooltip, Shortcut shortcut, Cursor cursor, MapFrame mapFrame) {
+        super(name, iconName, tooltip, shortcut, cursor);
+        mv = mapFrame.mapView;
+        setHelpId(ht("/Action/Select"));
+        selectionManager = new SelectionManager(this, false, mv);
+        lassoMode = false;
+    }
+
     @Override
     public void enterMode() {
         super.enterMode();
@@ -219,7 +227,7 @@ public class SelectAction extends MapMode implements ModifierExListener, KeyPres
         drawTargetHighlight = Config.getPref().getBoolean("draw.target-highlight", true);
         initialMoveDelay = Config.getPref().getInt("edit.initial-move-delay", 200);
         initialMoveThreshold = Config.getPref().getInt("edit.initial-move-threshold", 5);
-        repeatedKeySwitchLassoOption = Config.getPref().getBoolean("mappaint.select.toggle-lasso-on-repeated-S", true);
+        repeatedKeySwitchLassoOption = setRepeatedKeySwitchLassoOption();
         cycleManager.init();
         virtualManager.init();
         // This is required to update the cursors when ctrl/shift/alt is pressed
@@ -1113,6 +1121,10 @@ public class SelectAction extends MapMode implements ModifierExListener, KeyPres
     public void setLassoMode(boolean lassoMode) {
         this.selectionManager.setLassoMode(lassoMode);
         this.lassoMode = lassoMode;
+    }
+
+    protected boolean setRepeatedKeySwitchLassoOption() {
+        return Config.getPref().getBoolean("mappaint.select.toggle-lasso-on-repeated-S", true);
     }
 
     private final transient CycleManager cycleManager = new CycleManager();
